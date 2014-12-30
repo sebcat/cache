@@ -16,6 +16,9 @@ type LRUCache struct {
 	mutex    sync.RWMutex
 }
 
+// Returns a new cache which uses a Least Recently Used (LRU) cache policy
+//
+// the cache is safe for concurrent use
 func NewLRUCache(capacity int) *LRUCache {
 	if capacity <= 0 {
 		return nil
@@ -28,6 +31,7 @@ func NewLRUCache(capacity int) *LRUCache {
 	}
 }
 
+// Observe an element for caching
 func (c *LRUCache) See(el CacheElement) {
 	if el == nil {
 		return
@@ -55,6 +59,8 @@ func (c *LRUCache) See(el CacheElement) {
 	}
 }
 
+// returns an element from the cache based on it's key, or nil
+// if element does not exist in cache
 func (c *LRUCache) Get(key string) (el CacheElement) {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
