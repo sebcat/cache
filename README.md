@@ -56,3 +56,14 @@ func (c *LRUCache) Get(key string) (el CacheElement)
 ```go
 func (c *LRUCache) See(el CacheElement)
 ```
+
+#### Example
+
+```
+$ go test -bench .
+PASS
+BenchmarkLRUCacheInsertion      10000000               201   ns/op
+BenchmarkLRUCacheGet            20000000                88.2 ns/op
+BenchmarkLRUCacheGetMissing     50000000                65.7 ns/op
+ok      cache   8.880s
+```

@@ -2,6 +2,7 @@ package cache
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 )
 
@@ -89,4 +90,33 @@ func TestLRUCacheInvalidCapacity(t *testing.T) {
 func TestLRUCacheSeeNil(t *testing.T) {
 	cache := NewLRUCache(1)
 	cache.See(nil)
+}
+
+func BenchmarkLRUCacheInsertion(b *testing.B) {
+	cache := NewLRUCache(b.N)
+	var keys []string
+
+	for i := 0; i < b.N; i++ {
+		keys = append(keys, strconv.Itoa(b.N))
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		cache.See(&testElement{keys[i], "bar"})
+	}
+}
+
+func BenchmarkLRUCacheGet(b *testing.B) {
+	cache := NewLRUCache(1)
+	cache.See(&testElement{"foo", "bar"})
+	for i := 0; i < b.N; i++ {
+		cache.Get("foo")
+	}
+}
+
+func BenchmarkLRUCacheGetMissing(b *testing.B) {
+	cache := NewLRUCache(1)
+	for i := 0; i < b.N; i++ {
+		cache.Get("foo")
+	}
 }
