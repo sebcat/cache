@@ -6,8 +6,7 @@ import (
 )
 
 type testElement struct {
-	k string
-	v string
+	k, v string
 }
 
 func (el *testElement) Key() string {
